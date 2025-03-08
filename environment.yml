@@ -1,0 +1,12 @@
+name: stock_feature_store
+channels:
+  - conda-forge
+  - anaconda
+  - defaults
+dependencies:
+  - ipykernel # to enable jupyter notebook for local development
+  - twofish
+  - python=3.9
+  - pip
+  - pip:
+      - -r requirements.txt
