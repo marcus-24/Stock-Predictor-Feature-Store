@@ -1,4 +1,5 @@
 hopsworks[python]
+great_expectations
 hsfs[python]
 pandas==2.2.3
 python-dotenv==1.0.1
