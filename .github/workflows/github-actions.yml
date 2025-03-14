@@ -1,0 +1,30 @@
+name: Create/Update Hopsworks Feature Store
+
+on:
+  schedule:
+    - cron: "0 12 * * 1-5" # run every weekday at 12pm
+
+jobs:
+  ingestion:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4 # gives github actions access to your repository
+
+      - name: Set up Python
+        uses: actions/setup-python@v5 # lets you install a specific python version
+        with:
+          python-version: "3.11"
+          cache: "pip" # caching pip dependencies
+
+      - name: Install Python packages
+        run: |
+          pip install --upgrade pip 
+          pip install -r requirements.txt 
+          pip install -e .
+
+      - name: Ingestion new data into feature store
+        env:
+          HOPSWORKS_KEY: ${{secrets.HOPSWORKS_KEY}}
+
+        run: python main.py

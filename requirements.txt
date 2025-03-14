@@ -1,7 +1,6 @@
-hopsworks[python]
-great_expectations
-hsfs[python]
-pandas==2.2.3
+hopsworks[python]==4.0.1
+hsfs==4.0.1
+pandas<2.0.0
 python-dotenv==1.0.1
 twofish
 yfinance==0.2.54
