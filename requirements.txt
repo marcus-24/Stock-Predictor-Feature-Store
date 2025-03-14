@@ -1,6 +1,8 @@
 hopsworks[python]==4.0.1
-hsfs==4.0.1
+holidays==0.68
+hsfs==3.7.9
 pandas<2.0.0
+pytest==8.3.5
 python-dotenv==1.0.1
 twofish
 yfinance==0.2.54
