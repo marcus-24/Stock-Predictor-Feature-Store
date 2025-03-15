@@ -21,7 +21,7 @@ setup(
     author_email="marcusCallen24@gmail.com",
     url="https://github.com/marcus-24/Stock-Predictor-Feature-Store",
     long_description=read("README.md"),
-    packages=["mytools"],
-    package_dir={"mytools": "./mytools"},
+    packages=["mytools"],  # define package names
+    package_dir={"mytools": "./mytools"},  # show where packages are stored
     py_modules=[],
 )
