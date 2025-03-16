@@ -1,4 +1,4 @@
-hopsworks[python]==4.0.1
+hopsworks[python]==4.1.*
 holidays==0.68
 pandas<2.0.0
 pytest==8.3.5

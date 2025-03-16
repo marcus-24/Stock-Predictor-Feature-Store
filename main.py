@@ -27,6 +27,7 @@ if today not in nyse_holidays:  # if today is not a financial holiday
     start_date = today - relativedelta(years=2)
     new_start_date = correct_start_date(start_date, nyse_holidays)
     df = yf.Ticker("AAPL").history(interval="1d", start=new_start_date)
+    df.index = df.index.date  # convert datetime index to just date
     feature_df = feature_engineering(df)
     labels_df = create_labels(df)
 

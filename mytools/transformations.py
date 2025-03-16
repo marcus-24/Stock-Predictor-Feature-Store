@@ -5,6 +5,25 @@ WIN_SIZE = 7
 N_FUTURE = 7
 
 
+def standardize_df_format(df: pd.DataFrame, drop_cols: list[str]) -> pd.DataFrame:
+    """Standardize the dataframe format for feature store ingestion
+
+    Args:
+        df (pd.DataFrame): original dataframe
+
+    Returns:
+        pd.DataFrame: formatted dataframe
+    """
+    _df = df.copy()
+
+    return (
+        _df.dropna()
+        .drop(columns=drop_cols)
+        .reset_index(names="date")
+        .rename(columns=str.lower)
+    )
+
+
 def feature_engineering(df: pd.DataFrame, win_size: int = WIN_SIZE) -> pd.DataFrame:
     """Generates window features for the stock prediction
 
@@ -19,25 +38,19 @@ def feature_engineering(df: pd.DataFrame, win_size: int = WIN_SIZE) -> pd.DataFr
     _df = df.copy()
     # TODO: Labels use a negative shift in for loop
 
-    return (
-        _df.assign(
-            daily_var=(_df["High"] - _df["Low"]) / (_df["Open"]),
-            sev_day_sma=_df["Close"].rolling(win_size).mean(),
-            sev_day_std=_df["Close"].rolling(win_size).std(),
-            daily_return=_df["Close"].diff(),
-            sma_2std_pos=_df["Close"].rolling(win_size).mean()
-            + 2 * _df["Close"].rolling(win_size).std(),
-            sma_2std_neg=_df["Close"].rolling(win_size).mean()
-            - 2 * _df["Close"].rolling(win_size).std(),
-            high_close=(_df["High"] - _df["Close"]) / _df["Open"],
-            low_open=(_df["Low"] - _df["Open"]) / _df["Open"],
-            cumul_return=_df["Close"] - _df["Close"].iloc[0],
-        )
-        .dropna()
-        .drop(columns=df.columns)
-        .reset_index()
-        .rename(columns=str.lower)
-    )
+    return _df.assign(
+        daily_var=(_df["High"] - _df["Low"]) / (_df["Open"]),
+        sev_day_sma=_df["Close"].rolling(win_size).mean(),
+        sev_day_std=_df["Close"].rolling(win_size).std(),
+        daily_return=_df["Close"].diff(),
+        sma_2std_pos=_df["Close"].rolling(win_size).mean()
+        + 2 * _df["Close"].rolling(win_size).std(),
+        sma_2std_neg=_df["Close"].rolling(win_size).mean()
+        - 2 * _df["Close"].rolling(win_size).std(),
+        high_close=(_df["High"] - _df["Close"]) / _df["Open"],
+        low_open=(_df["Low"] - _df["Open"]) / _df["Open"],
+        cumul_return=_df["Close"] - _df["Close"].iloc[0],
+    ).pipe(standardize_df_format, drop_cols=df.columns)
 
 
 def create_labels(df: pd.DataFrame, n_future: int = N_FUTURE) -> pd.DataFrame:
@@ -54,4 +67,4 @@ def create_labels(df: pd.DataFrame, n_future: int = N_FUTURE) -> pd.DataFrame:
     for idx in range(n_future):
         _df[f"label_time_{idx + 1}"] = _df["Close"].shift(-idx - 1)
 
-    return _df.dropna().drop(columns=df.columns).reset_index().rename(columns=str.lower)
+    return _df.pipe(standardize_df_format, drop_cols=df.columns)
