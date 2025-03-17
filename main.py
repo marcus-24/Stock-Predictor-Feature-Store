@@ -12,11 +12,14 @@ from dotenv import load_dotenv
 # local imports
 from mytools.dates import correct_start_date
 from mytools.transformations import feature_engineering, create_labels
+from mytools.mlops import delete_existing_feature_group
 
 load_dotenv(override=True)
 
 API_KEY = os.getenv("HOPSWORKS_KEY")
 PROJECT = hopsworks.login(api_key_value=API_KEY)
+FEATURE_FG_NAME = "stock_features"
+LABEL_FG_NAME = "stock_labels"
 
 nyse_holidays = holidays.financial_holidays("NYSE")
 today = date.today()
@@ -37,8 +40,9 @@ if today not in nyse_holidays:  # if today is not a financial holiday
 
     """Ingest features in feature store"""
     # Feature groups will be offline since I dont need fast real-time predictions
-    fg_feature: FeatureGroup = fs.get_or_create_feature_group(
-        name="stock_features",
+    delete_existing_feature_group(fs, FEATURE_FG_NAME)
+    fg_feature: FeatureGroup = fs.create_feature_group(
+        name=FEATURE_FG_NAME,
         version=1,
         description="stores windowed features of stock",
         primary_key=["date"],
@@ -46,11 +50,12 @@ if today not in nyse_holidays:  # if today is not a financial holiday
         online_enabled=False,
     )
 
-    fg_feature.insert(feature_df, overwrite=True)
+    fg_feature.insert(feature_df)
 
     """Insert labels into feature store"""
-    fg_labels: FeatureGroup = fs.get_or_create_feature_group(
-        name="stock_labels",
+    delete_existing_feature_group(fs, LABEL_FG_NAME)
+    fg_labels: FeatureGroup = fs.create_feature_group(
+        name=LABEL_FG_NAME,
         version=1,  # TODO: try to auto increment versions and check if all data is overwritten
         description="stores stock prediction labels",
         primary_key=["date"],
@@ -58,4 +63,4 @@ if today not in nyse_holidays:  # if today is not a financial holiday
         online_enabled=False,
     )
 
-    fg_labels.insert(labels_df, overwrite=True)
+    fg_labels.insert(labels_df)
