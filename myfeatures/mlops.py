@@ -15,7 +15,7 @@ def delete_existing_feature_group(fs: FeatureStore, fg_name: str) -> None:
     try:
         fg_feature: FeatureGroup = fs.get_feature_group(name=fg_name)
         fg_feature.delete()
-        for _ in tqdm(range(30), desc=f'Deleting "{fg_name}" Feature store…'):
+        for _ in tqdm(range(60), desc=f'Deleting "{fg_name}" Feature store…'):
             time.sleep(1)
     except RestAPIError:
-        print(f"The {fg_name} has not been created yet")
+        print(f'The "{fg_name}" has not been created yet')

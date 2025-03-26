@@ -36,7 +36,6 @@ def feature_engineering(df: pd.DataFrame, win_size: int = WIN_SIZE) -> pd.DataFr
     """
     # https://medium.com/aimonks/improving-stock-price-forecasting-by-feature-engineering-8a5d0be2be96
     _df = df.copy()
-    # TODO: Labels use a negative shift in for loop
 
     return _df.assign(
         daily_var=(_df["High"] - _df["Low"]) / (_df["Open"]),
