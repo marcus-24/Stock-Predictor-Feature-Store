@@ -24,7 +24,7 @@ setup(
     packages=["myfeatures"],  # define package names
     package_dir={"myfeatures": "./myfeatures"},  # show where packages are stored
     install_requires=[
-        "hopsworks[python]>=4.1.*",
+        "hopsworks[python]>=4.1.8",
         "holidays>=0.68",
         "pandas<2.0.0",
         "twofish",
