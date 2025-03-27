@@ -15,7 +15,7 @@ def read(fname: str) -> str:
 
 
 setup(
-    name="stockfeatures",
+    name="Stock-Predictor-Feature-Store",
     version="0.0.1",
     author="Marcus Allen",
     author_email="marcusCallen24@gmail.com",
