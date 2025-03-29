@@ -10,7 +10,7 @@ from dateutil.relativedelta import relativedelta
 from dotenv import load_dotenv
 
 # local imports
-from myfeatures.dates import correct_start_date
+from myfeatures.dates import financial_date_correction
 from myfeatures.transformations import feature_engineering, create_labels
 from myfeatures.mlops import delete_existing_feature_group
 
@@ -28,7 +28,7 @@ if today not in nyse_holidays:  # if today is not a financial holiday
 
     """Create features and labels"""
     start_date = today - relativedelta(years=5)
-    new_start_date = correct_start_date(start_date, nyse_holidays)
+    new_start_date = financial_date_correction(start_date)
     df = yf.Ticker("AAPL").history(interval="1d", start=new_start_date)
     df.index = df.index.date  # convert datetime index to just date
     feature_df = feature_engineering(df)
