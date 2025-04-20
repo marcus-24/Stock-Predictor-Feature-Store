@@ -18,8 +18,10 @@ load_dotenv(override=True)
 
 API_KEY = os.getenv("HOPSWORKS_KEY")
 PROJECT = hopsworks.login(api_key_value=API_KEY)
-FEATURE_FG_NAME = "stock_features"
-LABEL_FG_NAME = "stock_labels"
+ENV_NAME = os.getenv("ENV_NAME")
+FEATURE_FG_NAME = f"stock_features_{ENV_NAME}"
+LABEL_FG_NAME = f"stock_labels_{ENV_NAME}"
+
 
 nyse_holidays = holidays.financial_holidays("NYSE")
 today = date.today()

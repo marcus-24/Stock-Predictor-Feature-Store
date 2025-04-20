@@ -26,5 +26,6 @@ jobs:
       - name: Ingestion new data into feature store
         env:
           HOPSWORKS_KEY: ${{secrets.HOPSWORKS_KEY}}
+          ENV_NAME: PROD
 
         run: python main.py
