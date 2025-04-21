@@ -16,7 +16,7 @@ def read(fname: str) -> str:
 
 setup(
     name="Stock-Predictor-Feature-Store",
-    version="0.0.1",
+    version="0.0.2",
     author="Marcus Allen",
     author_email="marcusCallen24@gmail.com",
     url="https://github.com/marcus-24/Stock-Predictor-Feature-Store",
