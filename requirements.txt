@@ -1,7 +1,7 @@
-hopsworks[python]==4.1.*
+hopsworks[python]==4.2.1
 holidays==0.68
 pandas<2.0.0
 pytest==8.3.5
 python-dotenv==1.0.1
 twofish
-yfinance==0.2.54
+yfinance==0.2.58
