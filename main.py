@@ -29,7 +29,7 @@ today = date.today()
 if today not in nyse_holidays:  # if today is not a financial holiday
 
     """Create features and labels"""
-    start_date = today - relativedelta(years=5)
+    start_date = today - relativedelta(years=4)
     new_start_date = financial_date_correction(start_date)
     df = yf.Ticker("^DJI").history(interval="1d", start=new_start_date)
     df.index = df.index.date  # convert datetime index to just date
